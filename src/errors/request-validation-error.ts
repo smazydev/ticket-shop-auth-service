@@ -1,10 +1,18 @@
 import { ValidationError } from "express-validator";
 
 export class RequestValidationError extends Error {
-    constructor(public errors: ValidationError[]) {
-        super();
-        
-        //Only because we are using TS and extending a builtin Class
-        Object.setPrototypeOf(this,RequestValidationError.prototype);
-    }
+  statusCode = 400;
+
+  constructor(public errors: ValidationError[]) {
+    super();
+
+    //Only because we are using TS and extending a builtin Class
+    Object.setPrototypeOf(this, RequestValidationError.prototype);
+  }
+
+  serializeErrors() {
+    return this.errors.map((err) => {
+      return { message: err.msg, field: err.param };
+    });
+  }
 }
