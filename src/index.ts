@@ -35,8 +35,13 @@ app.get("*", () => {
 app.use(errorHandler);
 
 
-//Establish Database connection
 const startConnection = async () => {
+
+  //Checking if secret JWT_KEY exists or not
+  if (!process.env.JWT_KEY) {
+    throw new Error("JWT_KEY must be defined")
+  }
+  //Establish Database Connection
   try {
     await mongoose.connect("mongodb://auth-mongo-service:27017/auth", {
       useNewUrlParser: true,
