@@ -1,6 +1,8 @@
 import { scrypt, randomBytes } from "crypto";
 import { promisify } from "util";
 
+//This was done to convert a callbank function into
+//Async Await syntax :3
 const scryptAsync = promisify(scrypt);
 
 export class Password {
@@ -12,8 +14,8 @@ export class Password {
   }
   static async compare(storePassword: string, suppliedPassword: string) {
     const [hashedPassword, salt] = storePassword.split(".");
-    const buffer = (await scryptAsync(suppliedPassword,salt,64)) as Buffer;
+    const buffer = (await scryptAsync(suppliedPassword, salt, 64)) as Buffer;
 
-    return buffer.toString('hex') === hashedPassword
+    return buffer.toString("hex") === hashedPassword;
   }
 }
