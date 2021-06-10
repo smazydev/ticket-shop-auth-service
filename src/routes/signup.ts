@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import { User } from "../models/users";
 import { RequestValidationError } from "../errors/request-validation-error";
+import { BadRequestError } from "../errors/bad-request-error";
 
 const router = express.Router();
 router.post(
@@ -28,8 +29,7 @@ router.post(
     
     //Check if user email already exists
     if (existingUser) {
-      console.log("Email in use");
-      return res.send({});
+      throw new BadRequestError("Email already in use");
     }
     
     //Create a new user and save it to the database
